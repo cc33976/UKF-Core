@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h> 
+#include "f.h"
+#include "f_func.h"
+#include "h_func.h"
+#include "merwe.h"
+#include "predict_RK4.h"
+#include "UnscentedKalmanFilter.h"
+#include "load_csv.h" 
+
+
+
+
+
+int main(void){
+  // argc -- num command line arguments
+  // argv -- array of strings containing arguments
+
+  double z[157][3];
+
+  // import flight data into z matrix (measurements)
+  char filename = "/Users/casey/Desktop/Kalman_Test_Data/Kalman_Test_data.csv";
+  load_csv(filename, z);
+  
+
+  // constant declarations:
+  float var_alt = 3.0;
+  float var_vel = 1.0;
+  float var_accel = 0.1;
+  float rho_R = 0.7; // for covariance weights
+  float rho_Q = 0.7; // for white noise weights
+
+  // create a 3x3 I matrix for H
+  float H[3][3] = {
+    {1, 0, 0},
+    {0, 1, 0},
+    {0, 0, 1}
+  };
+
+  // create 3x3 diagonal matrix for measurement variances
+  float R[3][3] = {
+    {var_alt, 0, 0},
+    {0, var_vel, 0},
+    {0, 0, var_alt}
+  };
+
+  // create initial covariance matrix
+  float P0[3][3] = {
+    {9*var_alt, rho_R*sqrt(var_alt*var_vel), rho_R*sqrt(var_alt*var_accel)},
+    {rho_R*sqrt(var_vel*var_alt), 9*var_vel, rho_R*sqrt(var_vel*var_accel)},
+    {rho_R*sqrt(var_alt*var_accel), rho_R*sqrt(var_vel*var_accel), 9*var_accel}
+  };
+
+  // create white noise matrix for process noise
+  float Q_UKF[3][3] = {
+    {var_alt, rho_R*sqrt(var_alt*var_vel), rho_R*sqrt(var_alt*var_accel)},
+    {rho_R*sqrt(var_vel*var_alt), var_vel, rho_R*sqrt(var_vel*var_accel)},
+    {rho_R*sqrt(var_alt*var_accel), rho_R*sqrt(var_vel*var_accel), var_accel}{},
+  };
+
+  // ========================================= UKF SETUP =======================================
+  // create sigma points 
+  int n = 3.0;
+  double alpha = 0.5;
+  double beta = 2.0;
+  double kappa = 0.0; 
+  MerweSigmaPoints sigmas = merweCreate(n, alpha, beta, kappa);
+
+  // create UKF -- head to UnscentedKalmanFilter.c 
+  UKF ukf;
+  init_UKF(ukf, 3, P0, Q_UKF, R, dt, sigmas); 
+
+
+} // end main 
