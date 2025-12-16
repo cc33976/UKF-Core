@@ -21,6 +21,8 @@ int main(void){
   // argv -- array of strings containing arguments
 
   double z[157][3];
+  double xs_ukf[157][3];
+  double Ps_ukf[157][3];
 
   // import flight data into z matrix (measurements)
   char filename = "/Users/casey/Desktop/Kalman_Test_Data/Kalman_Test_data.csv";
@@ -33,6 +35,7 @@ int main(void){
   float var_accel = 0.1;
   float rho_R = 0.7; // for covariance weights
   float rho_Q = 0.7; // for white noise weights
+  double dt = 0.117; // seconds 
 
   // create a 3x3 I matrix for H
   float H[3][3] = {
@@ -68,11 +71,16 @@ int main(void){
   double alpha = 0.5;
   double beta = 2.0;
   double kappa = 0.0; 
-  MerweSigmaPoints sigmas = merweCreate(n, alpha, beta, kappa);
+  MerweSigmaPoints sp;
+   double sigmas[n][2*n+1];
+  merweCreate(&sp, n, alpha, beta, kappa);
+
 
   // create UKF -- head to UnscentedKalmanFilter.c 
   UKF ukf;
-  init_UKF(ukf, 3, P0, Q_UKF, R, dt, sigmas); 
+  init_UKF(ukf, 3, 3, P0, Q_UKF, R, dt, f_func, h_func, sp);
+
+  // main loop
 
 
 } // end main 
