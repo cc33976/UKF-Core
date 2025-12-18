@@ -63,9 +63,9 @@ void sigma_points(MerweSigmaPoints *sp,
   }// end outer for loop
 
   // assign the first row of sigmas to the x values 
-  sigmas[0][0] = x[0];
-  sigmas[0][1] = x[1];
-  sigmas[0][2] = x[2];
+  sigmas[0] = x[0];
+  sigmas[1] = x[1];
+  sigmas[2] = x[2];
 
   // finish the rest of the sigma points
   subtract(x, U, sigmas);
