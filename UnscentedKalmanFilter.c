@@ -1,3 +1,4 @@
+
 #include <UnscentedKalmanFilter.h>
 #include <zeros.h> 
 #include <math.h>
@@ -34,11 +35,3 @@ void init_UKF(UKF *ukf,
 } // end init_UKF
 
 
-
-
-/*
-left off: working on UKF and header (mostly done) and wrote cholesky function.
-looking at function declarations in the UKF struct, similarly to python __init__ method.
-Working way down the list of functions and declarations needed before moving on from
-this file and back to the main.c file. 
- */ 

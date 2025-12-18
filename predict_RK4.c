@@ -1,7 +1,9 @@
 #include "f.h"
 
 // function for computing Runge-Kutta 4 for robust prediction methods in UKF
-void predict_RK4(double x[3], double dt, double y[3]){
+void predict_RK4(UKF *ukf, const double x_in[3], double y[3]){
+
+  double dt = ukf->dt;
   
   // declare and allocate 1x3 for k values
   double k1[3];

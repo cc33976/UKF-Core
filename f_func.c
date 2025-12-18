@@ -1,7 +1,7 @@
 #include "predict_RK4.h"
 
 
-void  f_func(double x[3], double dt, double x_out[3]){
+void  f_func(UKF *ukf, const double x_in[3], double x_out[3]){
   /*
     f_func for UKF uses nonlinear  RK4 model on sigma points rather than
     linearized predictin model

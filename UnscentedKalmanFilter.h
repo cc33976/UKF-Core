@@ -24,6 +24,10 @@ typedef struct {
   double (*Q)[3];
   double (*R)[3];
 
+  // sigma points from fx and hx functions
+  double sigmas_f[7][3];
+  double sigmas_h[7][3];
+
   // function pointer declarations
   fx_fn fx;
   hx_fn hx; 

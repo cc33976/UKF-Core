@@ -32,14 +32,14 @@ void sigma_points(MerweSigmaPoints *sp,
 		  double P[3][3]){
 
   int n = sp.n;
-  double lambda = sp.alpha**2  * (n + sp.kappa) - n;
+  double lambda = sp.lambda;
 
   // need access to cholesky here: U = self.sqrt((lambda_ + n)*P)
   double P_new[3][3];
   
   for (int i=0; i < 3; i++){
     for (int j=0; j < 3; j++){
-      P_new[i][j] = P[i][j] * (lambda + n);
+      P_new[i][j] = ukf->P[i][j] * (lambda + n);
     } // end inner for loop
   } // end outer for loop
   
@@ -49,7 +49,7 @@ void sigma_points(MerweSigmaPoints *sp,
   // perform cholesky for U 
   for (int i = 0; i < 3; i++){
     for (int j=0; j < 3; j++){
-      temp[i][j] = (lambda + n)*P[i][j];
+      temp[i][j] = (lambda + n)*ukf->P[i][j];
     } // end nested for loop
   } // end outer for loop
 
@@ -68,7 +68,7 @@ void sigma_points(MerweSigmaPoints *sp,
   sigmas[2] = x[2];
 
   // finish the rest of the sigma points
-  subtract(x, U, sigmas);
+  subtract(ukf->x, U, sigmas);
 
 } // end sigma_points
 
