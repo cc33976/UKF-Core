@@ -11,7 +11,7 @@ void predict(UKF *ukf,
   compute_process_signal(ukf, sp, sigmas); 
 
   // pass sigmas through unscented transform to calculate prior
-  UT(sp, sigmas, ukf);
+  UT(sigmas, ukf->Wm, ukf->Wc, Null, ukf, ukf->x, ukf->P); 
 
   // save prior 
   for (int i = 0; i < 3; i++) {

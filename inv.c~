@@ -1,0 +1,13 @@
+
+
+/*
+  Lightweight function that calculates the inverse of a 3x3
+  matrix.
+
+*/
+
+void inv() {
+
+  
+
+} // end inv

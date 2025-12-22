@@ -28,6 +28,10 @@ typedef struct {
   double sigmas_f[7][3];
   double sigmas_h[7][3];
 
+  // residuals of state x and measurement z
+  double residual_x[3];
+  double residual_z[3];
+
   // function pointer declarations
   fx_fn fx;
   hx_fn hx; 
@@ -37,6 +41,7 @@ typedef struct {
 
   // System uncertainty
   double S[3][3];
+  double SI[3][3];
   
 
 } UKF;
@@ -53,11 +58,5 @@ void init_UKF(UKF *ukf,
 	      hx_fn hx,
 	      MerweSigmaPoints *sp);
 
-// create destructor-like function for cleanup after running
-void destroy_UKF(UKF *ukf);
-
-void predict(UKF *ukf);
-
-void update(UKF *ukf, const double z[3]); 
 
 #endif

@@ -1,0 +1,42 @@
+
+// solves for the Kalman 
+
+void back_solve_L_3x3(const double L[3][3],
+                     const double y[3],
+                     double x[3])
+{
+    for (int i = 2; i >= 0; i--) {
+        double sum = y[i];
+        for (int j = i + 1; j < 3; j++) {
+            sum -= L[i][j] * x[j];
+        }
+        x[i] = sum / L[i][i];
+    }
+}
+
+void compute_K_cholesky(int dim_x,
+                        const double Pxz[][3],
+                        const double L[3][3],
+                        double K[][3])
+{
+    double b[3], y[3], x[3];
+
+    for (int i = 0; i < dim_x; i++) {
+
+        // b = Pxz row i (transpose handling)
+        b[0] = Pxz[i][0];
+        b[1] = Pxz[i][1];
+        b[2] = Pxz[i][2];
+
+        // Solve L x = y
+        back_solve_L_3x3(L, y, x);
+
+        // Store row of K
+        K[i][0] = x[0];
+        K[i][1] = x[1];
+        K[i][2] = x[2];
+    }
+}
+
+
+
