@@ -1,6 +1,10 @@
 #include "UnscentedKalmanFilter.h"
 #include "merwe.h"
 #include "cross_variance.h"
+#include "residual.h"
+#include "trans33.h"
+#include "dot33.h"
+#include "dot3.h"
 
 void update(UKF *ukf,
 	    MerweSigmaPoints *sp,
@@ -42,13 +46,33 @@ void update(UKF *ukf,
   compute_K_cholesky(Pxz,L_SI,ukf->K);
   
   // compute residual between measurement and prediction
-  
+  residual(z,zp,ukf->y);
   
   // update Gaussian state estimate (x,P)
-  
+  double temp_x[3];
+  dot3(ukf->y, ukf->K, temp);
+
+  double Kt[3][3];
+  trans33(ukf->K,Kt);
+  double dot_S_Kt[3][3];
+  dot33(ukf->S, Kt, dot_S_Kt);
+  double dot_K_dot_S_Kt[3][3];
+  dot33(K, dot_S_Kt, dot_K_dot_S_Kt[3][3]);
+
+  for (int i = 0; i < 3; i++){
+    ukf->x[i] += temp_x[i];
+    for (int j = 0; j < 3; j++){
+      ukf->P[i][j] -= dot_K_dot_S_Kt[i][j];
+    } // end nested for loop
+  } // end for loop
   
   // save measurement and posterior state 
-  
+  for (int i=0; i < 3; i++){
+    ukf->x_post[i] = ukf->x[i];
+    for (int j=0; j<3; j++){
+      ukf->P_post[i][j] = ukf->P[i][j];
+    } // end nested for loop
+  } // end outer for loop
 
   
 

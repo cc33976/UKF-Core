@@ -17,10 +17,12 @@ typedef struct {
 
   double x[3];
   double x_prior[3];
+  double x_post[3]; 
 
   // pointers to predefined 3x3 arrays s
   double (*P)[3];
   double P_prior[3][3];
+  double  P_post[3][3];
   double (*Q)[3];
   double (*R)[3];
 
@@ -31,6 +33,7 @@ typedef struct {
   // residuals of state x and measurement z
   double residual_x[3];
   double residual_z[3];
+  double y[3];
 
   // function pointer declarations
   fx_fn fx;

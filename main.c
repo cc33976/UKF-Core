@@ -10,7 +10,9 @@
 #include "merwe.h"
 #include "predict_RK4.h"
 #include "UnscentedKalmanFilter.h"
-#include "load_csv.h" 
+#include "load_csv.h"
+#include "predict.h"
+#include "update.h" 
 
 
 
@@ -20,13 +22,13 @@ int main(void){
   // argc -- num command line arguments
   // argv -- array of strings containing arguments
 
-  double z[157][3];
+  double zs[157][3];
   double xs_ukf[157][3];
   double Ps_ukf[157][3];
 
   // import flight data into z matrix (measurements)
   char filename = "/Users/casey/Desktop/Kalman_Test_Data/Kalman_Test_data.csv";
-  load_csv(filename, z);
+  load_csv(filename, zs);
   
 
   // constant declarations:
@@ -65,7 +67,7 @@ int main(void){
     {rho_R*sqrt(var_alt*var_accel), rho_R*sqrt(var_vel*var_accel), var_accel}{},
   };
 
-  // ========================================= UKF SETUP =======================================
+  // =============== UKF SETUP ===============
   // create sigma points 
   int n = 3.0;
   double alpha = 0.5;
@@ -80,7 +82,24 @@ int main(void){
   UKF ukf;
   init_UKF(ukf, 3, 3, P0, Q_UKF, R, dt, f_func, h_func, sp);
 
-  // main loop
+  // ============== filter loop ================
+  double xs_ukf[157][3];
+  double z[3];
+
+  for (int i = 0; i < 157; i++){
+    for (int j = 0; j < 3; j++){ 
+      z[i] = zs[i][j];
+    } // end nested for loop
+
+    // predict step
+    predict(ukf, sp, sigmas, unscented_transform);
+
+    // update step
+    update(ukf,sp,unscented_transform,H,z);
+
+    // append x's to the filtered array xs_ukf
+
+  } // end main batch filter loop
 
 
 } // end main 
