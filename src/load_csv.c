@@ -1,3 +1,4 @@
+#include "load_csv.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -18,7 +19,7 @@ int load_csv(const char *filename, double Z[][3]) {
     sscanf(line, "%lf, %lf, %lf",
 	   &Z[row][0],
 	   &Z[row][1],
-	   &Z[tow][2]);
+	   &Z[row][2]);
     row++; 
   } // end while
 

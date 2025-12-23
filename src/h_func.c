@@ -1,3 +1,4 @@
+#include "h_func.h"
 #include "UnscentedKalmanFilter.h"
 
 
@@ -8,9 +9,9 @@ void h_func(double x_in[3], double H[3][3], double z_out[3]){
 
   // H is a 3x3 matrix
   // x is a 3x1 matrix
-  for (i=0; i < 3; i++){
+  for (int i=0; i < 3; i++){
     tot_row = 0.0;
-    for (j=0; j < 3; j++){
+    for (int j=0; j < 3; j++){
       
       // find sum product for each row and add to row index of product matrix
       tot_row += H[i][j] * x_in[j];

@@ -1,5 +1,4 @@
 #include "merwe.h"
-#include "zeros.h"
 #include "cholesky.h"
 #include "subtract.h"
 #include <math.h>
@@ -12,15 +11,12 @@ void merweCreate(MerweSigmaPoints *sp,
 
 
   // assign sp params from function input
-  sp.n = n;
-  sp.alpha = alpha;
-  sp.beta = beta;
-  sp.kappa = kappa;
-  sp.lambda = alpha*alpha * (n + kappa) - n;
+  sp->n = n;
+  sp->alpha = alpha;
+  sp->beta = beta;
+  sp->kappa = kappa;
+  sp->lambda = alpha*alpha * (n + kappa) - n;
   
-
-  // return SigmaPoints "object" sp with assigned params
-  return sp;
 }
 
 
@@ -31,8 +27,8 @@ void sigma_points(MerweSigmaPoints *sp,
 		  double x[3],
 		  double P[3][3]){
 
-  int n = sp.n;
-  double lambda = sp.lambda;
+  int n = sp->n;
+  double lambda = sp->lambda;
 
   // need access to cholesky here: U = self.sqrt((lambda_ + n)*P)
   double P_new[3][3];
@@ -73,11 +69,5 @@ void sigma_points(MerweSigmaPoints *sp,
 } // end sigma_points
 
 
-
-
-int num_sigmas(MerweSigmaPoints *sp){
-
-  return 2*sp.n + 1; 
-} // end num_sigmas
 
 

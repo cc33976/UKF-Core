@@ -1,7 +1,5 @@
+#include "UnscentedKalmanFilter.h"
 
-#include <UnscentedKalmanFilter.h>
-#include <zeros.h> 
-#include <math.h>
 
 // create UKF constructor-like struct
 

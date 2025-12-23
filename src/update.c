@@ -1,3 +1,4 @@
+#include "update.h"
 #include "UnscentedKalmanFilter.h"
 #include "merwe.h"
 #include "cross_variance.h"
@@ -9,7 +10,13 @@
 void update(UKF *ukf,
 	    MerweSigmaPoints *sp,
 	    double R[3][3],
-	    void (*UT)(MerweSigmaPoints, double[7][3], UnscentedKalmanFilter),
+	    void (*UT)(double sigmas[7][3],
+		       double Wm[7],
+		       double Wc[7],
+		       double noise_cov[3][3],
+		       UKF *ukf,
+		       double x[3],
+		       double P[3][3]),
 	    double H[3][3],
 	    double z[3]) {
 
@@ -24,7 +31,7 @@ void update(UKF *ukf,
   
   // compute the cross variance of state and measurements
   double Pxz[3][3];
-  cross_variance(ukf, z, Pxz);
+  cross_variance(ukf, sp, z, Pxz);
   
   
   /* compute the Kalman gain:
@@ -50,14 +57,14 @@ void update(UKF *ukf,
   
   // update Gaussian state estimate (x,P)
   double temp_x[3];
-  dot3(ukf->y, ukf->K, temp);
+  dot3(ukf->y, ukf->K, temp_x);
 
   double Kt[3][3];
   trans33(ukf->K,Kt);
   double dot_S_Kt[3][3];
   dot33(ukf->S, Kt, dot_S_Kt);
   double dot_K_dot_S_Kt[3][3];
-  dot33(K, dot_S_Kt, dot_K_dot_S_Kt[3][3]);
+  dot33(K, dot_S_Kt, dot_K_dot_S_Kt);
 
   for (int i = 0; i < 3; i++){
     ukf->x[i] += temp_x[i];

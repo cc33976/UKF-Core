@@ -1,5 +1,7 @@
+#include "compute_process_sigmas.h"
 #include "merwe.h"
 #include "UnscentedKalmanFilter.h"
+#include "f_func.h" 
 
 
 
@@ -16,7 +18,7 @@ void compute_process_sigmas(UKF *ukf,
   // pass sigma points to the f_func for model state prediction
   
   for (int i=0; i < 7; i++) {
-    f_func(temp_sigmas[i], ukf.dt, ukf->sigmas_f[i]);
+    f_func(ukf, temp_sigmas[i], ukf->sigmas_f[i]);
 
   } // end for loop
 

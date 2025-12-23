@@ -1,0 +1,8 @@
+#ifndef F_TF_H
+#define F_TF_H
+
+#include "f.h"
+
+void f_tf(double X[3][7], double Y[3][7]);
+
+#endif

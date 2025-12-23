@@ -1,7 +1,7 @@
-
+#include "dot3.h"
 
 // might be a good idea to make Wm and x_new ambiguous (a,b) 
-void dot(double a[3], double b[3][3], double out[3]) {
+void dot3(double a[3], double b[3][3], double out[3]) {
 
   double sum = 0.0;
   

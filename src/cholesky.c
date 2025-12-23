@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include "cholesky.h"
 
 void cholesky(const double A[3][3], double L[3][3]) {
 

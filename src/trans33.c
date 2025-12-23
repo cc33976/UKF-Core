@@ -1,4 +1,4 @@
-
+#include "trans33.h"
 
 void trans33(double A[3][3], double At[3][3]) {
   for (int i = 0; i < 3; i++){

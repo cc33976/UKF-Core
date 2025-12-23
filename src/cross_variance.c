@@ -1,6 +1,11 @@
+#include "cross_variance.h"
 #include "UnscentedKalmanFilter.h"
+#include "residual.h"
 
-void cross_variance(UKF *ukf, double z[3], double Pxz[3][3]){
+void cross_variance(UKF *ukf,
+		    MerweSigmaPoints *sp,
+		    double z[3],
+		    double Pxz[3][3]){
 
   // compute cross variance of the state x and measurement z
   double dx[3];
@@ -20,7 +25,7 @@ void cross_variance(UKF *ukf, double z[3], double Pxz[3][3]){
 
     for (int r=0; r<3; r++){
       for (int c=0; c<3; c++){
-	Pxz[r][c] += ukf->Wc[i] * dx[r] * dz[c];
+	Pxz[r][c] += sp->Wc[i] * dx[r] * dz[c];
       } // end innermost for loop (c)
     } // end middle for loop (r)
   } // end for loop 

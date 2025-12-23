@@ -1,4 +1,4 @@
-
+#include "subtract.h" 
 
 /*
   The function is called subtract to remain synonymous with

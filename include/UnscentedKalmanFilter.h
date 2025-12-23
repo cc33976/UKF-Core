@@ -1,14 +1,16 @@
 #ifndef UNSCENTEDKALMANFILTER_H
 #define UNSCENTEDKALMANFILTER_H
 
-// forward declaration of MerweSigmaPoints struct:
-typedef struct MerweSigmaPoints MerweSigmaPoints;
+#include "merwe.h"
+
+typedef struct UKF UKF;
 
 // forward declarations of fx and hx fn pointers
-typedef void (*fx_fn)(double x[3], double dt, double x_out[3]);
-typedef void (*hx_fn)(double x[3], double z_out[3]);
+typedef void (*fx_fn)(UKF *ukf, const double x_in[3], double x_out[3]);
+typedef void (*hx_fn)(double x_in[3], double H[3][3], double z_out[3]);
 
-typedef struct {
+
+ struct UKF{
   int dim_x;
   int dim_z;
   double dt;
@@ -47,7 +49,8 @@ typedef struct {
   double SI[3][3];
   
 
-} UKF;
+};
+
 
 // create constructor-like object
 void init_UKF(UKF *ukf,

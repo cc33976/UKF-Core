@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include "allocate.h"
+#include "f.h"
 
 /*
 F function that returns the f(x) derivative function from EOM. Returns the

@@ -1,3 +1,4 @@
+#include "f_tf.h"
 #include <stdio.h>
 #include "f.h" 
 
@@ -12,8 +13,8 @@ void f_tf(double X[3][7], double Y[3][7]) {
   // move each term up one row for derivate (j=0 in third row)
   for (int j=0; j < 7; j++) { 
     // going by column
-    Y[0][j] = x[1][j]; // dx/dt = v
-    Y[1][j] = x[2][j]; // dv/dt = a
+    Y[0][j] = X[1][j]; // dx/dt = v
+    Y[1][j] = X[2][j]; // dv/dt = a
     Y[2][j] = 0.0; // da/dt = j: assumed zero
   } // end for loop
 

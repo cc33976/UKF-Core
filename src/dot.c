@@ -1,4 +1,4 @@
-
+#include "dot.h"
 
 // might be a good idea to make Wm and x_new ambiguous (a,b) 
 void dot(double A[7], double B[7][3], double Out[3]) {

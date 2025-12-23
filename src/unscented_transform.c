@@ -1,6 +1,8 @@
+#include "unscented_transform.h"
 #include "UnscentedKalmanFilter.h"
 #include "merwe.h"
 #include "residual.h"
+#include "unscented_transform.h"
 
 // returns state and covariance matrices (x,P)
 void unscented_transform(double sigmas[7][3],

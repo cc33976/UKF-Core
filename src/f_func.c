@@ -1,4 +1,6 @@
+#include "f_func.h"
 #include "predict_RK4.h"
+#include "UnscentedKalmanFilter.h"
 
 
 void  f_func(UKF *ukf, const double x_in[3], double x_out[3]){
@@ -8,7 +10,7 @@ void  f_func(UKF *ukf, const double x_in[3], double x_out[3]){
   */
 
   // pass the points through RK4 and return
-  predict_RK4(x, dt, x_out);
+  predict_RK4(ukf, x_in, x_out);
 
 
 } // end f_func

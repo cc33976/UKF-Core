@@ -1,6 +1,6 @@
 #ifndef DOT_H
 #define DOT_H
 
-#include "merwe.h" 
+void dot(double A[7], double B[7][3], double Out[3]);
 
-void dot(MerweSigmaPoints *sp, double sigmas[7][3], double x_new[3]);
+#endif

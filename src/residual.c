@@ -1,4 +1,4 @@
-
+#include "residual.h"
 
 void residual(double a[3], double b[3], double out[3]) {
 
