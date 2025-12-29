@@ -6,6 +6,8 @@
 #include "trans33.h"
 #include "dot33.h"
 #include "dot3.h"
+#include "h_func.h"
+#include "compute_K_cholesky.h"
 
 void update(UKF *ukf,
 	    MerweSigmaPoints *sp,
@@ -27,7 +29,7 @@ void update(UKF *ukf,
 
   // pass mean and covariance through unscented transform
   double zp[3];
-  UT(ukf->sigmas_h, ukf->Wm, ukf->Wc, R, ukf, zp, ukf->S);
+  UT(ukf->sigmas_h, sp->Wm, sp->Wc, R, ukf, zp, ukf->S);
   
   // compute the cross variance of state and measurements
   double Pxz[3][3];
@@ -64,7 +66,7 @@ void update(UKF *ukf,
   double dot_S_Kt[3][3];
   dot33(ukf->S, Kt, dot_S_Kt);
   double dot_K_dot_S_Kt[3][3];
-  dot33(K, dot_S_Kt, dot_K_dot_S_Kt);
+  dot33(ukf->K, dot_S_Kt, dot_K_dot_S_Kt);
 
   for (int i = 0; i < 3; i++){
     ukf->x[i] += temp_x[i];

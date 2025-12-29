@@ -4,6 +4,6 @@
 #include "f.h"
 #include "UnscentedKalmanFilter.h"
 
-void predict_RK4(UKF *ukf, const double x_in[3], double y[3]);
+void predict_RK4(UKF *ukf, double x[3], double y[3]);
 
 #endif

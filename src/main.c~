@@ -79,7 +79,7 @@ int main(void){
   merweCreate(&sp, n, alpha, beta, kappa);
 
 
-  // create UKF -- head to UnscentedKalmanFilter.c 
+  // create UKF
   UKF ukf;
   init_UKF(&ukf, 3, 3, P0, Q_UKF, R, dt, f_func, h_func, &sp);
 

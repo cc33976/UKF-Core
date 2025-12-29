@@ -12,7 +12,7 @@ void init_UKF(UKF *ukf,
 	      double dt,
 	      fx_fn fx,
 	      hx_fn hx,
-	      MerweSigmaPoints *sp) {
+	      struct MerweSigmaPoints *sp) {
 
 
   // initialize the x matrix as zeros (intial guess)
@@ -20,9 +20,13 @@ void init_UKF(UKF *ukf,
     ukf->x[i] = 0.0;
   } // end outer for loop
 
-  ukf->P = P;
-  ukf->Q = Q;
-  ukf->R = R;
+  for (int i = 0; i < 3; i++){
+    for (int j = 0; j < 3; j++){
+      ukf->P[i][j] = P[i][j];
+      ukf->Q[i][j] = Q[i][j];
+      ukf->R[i][j] = R[i][j];
+    }
+  }
   ukf->sp = sp;
   ukf->dt = dt;
 

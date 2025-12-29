@@ -4,7 +4,7 @@
 #include "predict_RK4.h"
 #include "UnscentedKalmanFilter.h"
 
-void f_func(UKF *ukf, const double x_in[3], double x_out[3]);
+void f_func(UKF *ukf, double x_in[3], double x_out[3]);
 
 #endif
 	    

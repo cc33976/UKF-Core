@@ -9,12 +9,23 @@ void cholesky(const double A[3][3], double L[3][3]) {
         return;
     } // end if
 
+    printf("A:\n");
+    for (int i = 0; i < 3; i++){
+      for (int j = 0; j < 3; j++){
+	printf("%.3f ",A[i][j]);
+      }
+      printf("\n");
+    }
+
     // initialize L to zeros
     for (int i=0; i<3; i++) {
         for (int j=0; j<3; j++) {
             L[i][j] = 0.0;
+	    // printf("%.3f ",L[i][j]);
         } // end nested for loop
+	//printf("\n");
     } // end outer for loop
+    
 
     // column by column
     L[0][0] = sqrt(A[0][0]);
@@ -35,5 +46,14 @@ void cholesky(const double A[3][3], double L[3][3]) {
         return;
     } // end if 
     L[2][2] = sqrt(temp);
+
+    // print L matrix
+    printf("L:\n");
+    for (int i = 0; i < 3; i++){
+      for (int j = 0; j < 3; j++){
+	printf("%.3f ",L[i][j]);
+      }
+      printf("\n");
+    }
 } // end cholesky
 

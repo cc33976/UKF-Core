@@ -3,6 +3,7 @@
 # =========================
 CC      = gcc
 CFLAGS  = -std=c99 -Wall -Werror -Iinclude -MMD -MP
+#CFLAGS  = -std=c99 -Wall -g -Werror -Iinclude -MMD -MP
 LDFLAGS = -lm
 
 # =========================
@@ -11,7 +12,7 @@ LDFLAGS = -lm
 SRCDIR  = src
 INCDIR  = include
 OBJDIR  = build
-TARGET  = $(OBJDIR)/main_UKF
+TARGET  = $(OBJDIR)/main
 
 # =========================
 # Source / object lists

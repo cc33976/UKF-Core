@@ -3,7 +3,7 @@
 #include "UnscentedKalmanFilter.h"
 
 // function for computing Runge-Kutta 4 for robust prediction methods in UKF
-void predict_RK4(UKF *ukf, const double x_in[3], double y[3]){
+void predict_RK4(UKF *ukf, double x[3], double y[3]){
 
   double dt = ukf->dt;
   

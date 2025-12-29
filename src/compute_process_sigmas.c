@@ -12,7 +12,7 @@ void compute_process_sigmas(UKF *ukf,
   double temp_sigmas[7][3];
 
   // create sigma points around given mean values x
-  sigma_points(sp, temp_sigmas, ukf->x, ukf->P);
+  sigma_points(ukf, sp, temp_sigmas, ukf->x, ukf->P);
 
 
   // pass sigma points to the f_func for model state prediction

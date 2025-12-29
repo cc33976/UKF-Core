@@ -5,8 +5,10 @@
 
 typedef struct UKF UKF;
 
+struct MerweSigmaPoints;
+
 // forward declarations of fx and hx fn pointers
-typedef void (*fx_fn)(UKF *ukf, const double x_in[3], double x_out[3]);
+typedef void (*fx_fn)(UKF *ukf, double x_in[3], double x_out[3]);
 typedef void (*hx_fn)(double x_in[3], double H[3][3], double z_out[3]);
 
 
@@ -15,7 +17,7 @@ typedef void (*hx_fn)(double x_in[3], double H[3][3], double z_out[3]);
   int dim_z;
   double dt;
   
-  MerweSigmaPoints *sp;
+  struct MerweSigmaPoints *sp;
 
   double x[3];
   double x_prior[3];
@@ -62,7 +64,7 @@ void init_UKF(UKF *ukf,
 	      double dt,
 	      fx_fn fx,
 	      hx_fn hx,
-	      MerweSigmaPoints *sp);
+	      struct MerweSigmaPoints *sp);
 
 
 #endif

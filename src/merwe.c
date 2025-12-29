@@ -1,3 +1,4 @@
+#include "UnscentedKalmanFilter.h"
 #include "merwe.h"
 #include "cholesky.h"
 #include "subtract.h"
@@ -22,8 +23,9 @@ void merweCreate(MerweSigmaPoints *sp,
 
 
 // 1D or 2D array? 
-void sigma_points(MerweSigmaPoints *sp,
-		  double sigmas[3][7],
+void sigma_points(UKF *ukf,
+		  MerweSigmaPoints *sp,
+		  double sigmas[7][3],
 		  double x[3],
 		  double P[3][3]){
 
@@ -58,10 +60,10 @@ void sigma_points(MerweSigmaPoints *sp,
     }// end nested for loop
   }// end outer for loop
 
-  // assign the first row of sigmas to the x values 
-  sigmas[0] = x[0];
-  sigmas[1] = x[1];
-  sigmas[2] = x[2];
+  // assign the first row of sigmas to the x values
+  for (int i = 0; i < 3; i++){ 
+    sigmas[0][i] = x[0];
+  }
 
   // finish the rest of the sigma points
   subtract(ukf->x, U, sigmas);
