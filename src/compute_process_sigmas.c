@@ -1,25 +1,28 @@
 #include "compute_process_sigmas.h"
 #include "merwe.h"
 #include "UnscentedKalmanFilter.h"
-#include "f_func.h" 
+#include "f_func.h"
+#include <stdio.h>
 
 
 
 void compute_process_sigmas(UKF *ukf,
-			    MerweSigmaPoints *sp,
-			    double sigmas[7][3]) {
+			    MerweSigmaPoints *sp) {
 
-  double temp_sigmas[7][3];
+  printf("entering compute_process_sigmas\n");
+  double sigmas[7][3];
 
   // create sigma points around given mean values x
-  sigma_points(ukf, sp, temp_sigmas, ukf->x, ukf->P);
+  sigma_points(sp, sigmas, ukf->x, ukf->P);
 
-
-  // pass sigma points to the f_func for model state prediction
+  printf("printing sigma points from sigma_points fn:\n");
+  for (int i=0; i<7; i++){
+    printf("[");
+    for (int j=0; j<3; j++){
+      printf("%.4f ",sigmas[i][j]);
+    }
+    printf("]\n");
+  }
   
-  for (int i=0; i < 7; i++) {
-    f_func(ukf, temp_sigmas[i], ukf->sigmas_f[i]);
-
-  } // end for loop
 
 } // end compute_process_sigmas

@@ -4,7 +4,7 @@
 #include "residual.h"
 #include "unscented_transform.h"
 #include "dot.h"
-#include <stdlib.h>
+#include <stdio.h>
 
 // returns state and covariance matrices (x,P)
 void unscented_transform(double sigmas[7][3],
@@ -14,6 +14,24 @@ void unscented_transform(double sigmas[7][3],
 			 UKF *ukf,
 			 double x[3],
 			 double P[3][3]){
+
+  printf("#### entering unscented transform ####\n");
+
+  printf("sigmas_f:\n");
+  for (int i =0; i < 7; i++){
+    printf("[");
+    for (int j=0; j< 3; j++){
+      printf("%.4f ",sigmas[i][j]);
+    }
+    printf("]\n");
+  }
+
+  // set P to zero before accumulating
+  for (int i = 0; i < 3; i++){
+    for (int j = 0; j < 3; j++){
+      P[i][j] = 0.0;
+    } // end for
+  } // end for 
 
   // compute new average state by taking weighted sum of sigma points
   dot(Wm, sigmas, x);
@@ -40,7 +58,9 @@ void unscented_transform(double sigmas[7][3],
 	P[i][j] += noise_cov[i][j];
       } // end nested for loop
     } // end for loop
-  } // end if statement 
+  } // end if statement
+
+  printf("leaving unscented transform\n");
  
 
 } // end unscented_transform

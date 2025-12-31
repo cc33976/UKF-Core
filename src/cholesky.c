@@ -9,6 +9,7 @@ void cholesky(const double A[3][3], double L[3][3]) {
         return;
     } // end if
 
+    /*
     printf("A:\n");
     for (int i = 0; i < 3; i++){
       for (int j = 0; j < 3; j++){
@@ -16,6 +17,7 @@ void cholesky(const double A[3][3], double L[3][3]) {
       }
       printf("\n");
     }
+    */
 
     // initialize L to zeros
     for (int i=0; i<3; i++) {
@@ -33,6 +35,14 @@ void cholesky(const double A[3][3], double L[3][3]) {
     L[2][0] = A[2][0] / L[0][0];
 
     double temp = A[1][1] - L[1][0]*L[1][0];
+
+    // prevent tiny negatives from sneaking in
+    double eps = 1e-12;
+    if (temp < eps){
+      printf("Cholesky warning: temp to small, switching to eps\n");
+      temp = eps;
+    } // end if
+    
     if (temp <= 0) {
         printf("Cholesky error: A[1][1]-L[1][0]^2=%f <= 0\n", temp);
         return;
@@ -47,6 +57,7 @@ void cholesky(const double A[3][3], double L[3][3]) {
     } // end if 
     L[2][2] = sqrt(temp);
 
+    /*
     // print L matrix
     printf("L:\n");
     for (int i = 0; i < 3; i++){
@@ -55,5 +66,6 @@ void cholesky(const double A[3][3], double L[3][3]) {
       }
       printf("\n");
     }
+    */
 } // end cholesky
 

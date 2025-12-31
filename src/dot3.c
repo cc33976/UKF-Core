@@ -8,8 +8,6 @@ void dot3(double a[3], double b[3][3], double out[3]) {
   for (int j=0; j < 3; j++){
     for (int i=0; i< 3; i++){
       sum = sum + (a[i] * b[i][j]);
-      sum = sum + (a[i] * b[i][j]);
-      sum = sum + (a[i] * b[i][j]);
     } // end nested for loop
     out[j] = sum;
     sum = 0.0;

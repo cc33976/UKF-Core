@@ -2,8 +2,8 @@
 #include "UnscentedKalmanFilter.h"
 
 
-void h_func(double x_in[3], double H[3][3], double z_out[3]){
 
+void h_func(double x_in[3], double H[3][3], double z_out[3]){
 
   double tot_row; 
 
@@ -20,7 +20,5 @@ void h_func(double x_in[3], double H[3][3], double z_out[3]){
     
     z_out[i] = tot_row;
   } // end outer for (row)
-  
-
 
 } // end h_func

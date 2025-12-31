@@ -51,9 +51,9 @@ void compute_K_cholesky(const double Pxz[3][3],
     for (int i = 0; i < 3; i++) {
 
         // b = row i of Pxz
-        b[0] = Pxz[i][0];
-        b[1] = Pxz[i][1];
-        b[2] = Pxz[i][2];
+        b[0] = Pxz[0][i];
+        b[1] = Pxz[1][i];
+        b[2] = Pxz[2][i];
 
         // L y = b
         forward_solve_L_3x3(L, b, y);
@@ -62,9 +62,9 @@ void compute_K_cholesky(const double Pxz[3][3],
         back_solve_LT_3x3(L, y, x);
 
         // Store row of K
-        K[i][0] = x[0];
-        K[i][1] = x[1];
-        K[i][2] = x[2];
+        K[0][i] = x[0];
+        K[1][i] = x[1];
+        K[2][i] = x[2];
     }
 }
 

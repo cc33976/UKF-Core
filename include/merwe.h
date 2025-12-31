@@ -27,8 +27,7 @@ void merweCreate(MerweSigmaPoints *sp,
 		 double beta,
 		 double kappa);
 
-void sigma_points(struct UKF *ukf,
-		  MerweSigmaPoints *sp,
+void sigma_points(MerweSigmaPoints *sp,
 		  double sigmas[7][3],
 		  double x[3],
 		  double P[3][3]);

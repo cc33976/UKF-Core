@@ -43,9 +43,9 @@ int main(void){
   
 
   // constant declarations:
-  double var_alt = 3.0;
-  double var_vel = 1.0;
-  double var_accel = 0.1;
+  double var_alt = 1.0;
+  double var_vel = 2.0;
+  double var_accel = 1.0;
   double rho_R = 0.7; // for covariance weights
   double rho_Q = 0.7; // for white noise weights
   double dt = 0.117; // seconds 
@@ -61,22 +61,42 @@ int main(void){
   double R[3][3] = {
     {var_alt, 0, 0},
     {0, var_vel, 0},
-    {0, 0, var_alt}
+    {0, 0, var_accel}
   };
 
+  
   // create initial covariance matrix
   double P0[3][3] = {
     {9*var_alt, rho_R*sqrt(var_alt*var_vel), rho_R*sqrt(var_alt*var_accel)},
     {rho_R*sqrt(var_vel*var_alt), 9*var_vel, rho_R*sqrt(var_vel*var_accel)},
     {rho_R*sqrt(var_alt*var_accel), rho_R*sqrt(var_vel*var_accel), 9*var_accel}
   };
+  
+
+  /*
+  double P0[3][3] = {
+    {var_alt, 0, 0},
+    {0, var_vel, 0},
+    {0, 0, var_accel}};
+
+  */
 
   // create white noise matrix for process noise
+  
   double Q_UKF[3][3] = {
     {var_alt, rho_Q*sqrt(var_alt*var_vel), rho_Q*sqrt(var_alt*var_accel)},
     {rho_Q*sqrt(var_vel*var_alt), var_vel, rho_Q*sqrt(var_vel*var_accel)},
     {rho_Q*sqrt(var_alt*var_accel), rho_Q*sqrt(var_vel*var_accel), var_accel},
   };
+  
+
+  /*
+  double Q_UKF[3][3] = {
+    {10, 0, 0},
+    {0, 10, 0},
+    {0, 0, 10}};
+
+  */
 
   // =============== UKF SETUP ===============
   // create sigma points 
@@ -85,31 +105,49 @@ int main(void){
   double beta = 2.0;
   double kappa = 0.0; 
   MerweSigmaPoints sp;
-  double sigmas[n][2*n+1];
+  //printf("Attempting to create sigma points\n");
   merweCreate(&sp, n, alpha, beta, kappa);
+  //printf("successfully created sigma points\n");
 
 
   // create UKF
   UKF ukf;
+  //printf("Attempting to create UKF 'object'\n");
   init_UKF(&ukf, 3, 3, P0, Q_UKF, R, dt, f_func, h_func, &sp);
+  //printf("created UKF 'object with init_UKF'\n");
+
+  
 
   // ============== filter loop ================
-
-
   for (int i = 0; i < 157; i++){
     for (int j = 0; j < 3; j++){ 
       z[j] = zs[i][j];
     } // end nested for loop
 
+    printf("Attempting predict step in loop iteration %d\n",i);
     // predict step
-    predict(&ukf, &sp, sigmas, unscented_transform);
+    predict(&ukf, &sp);
+    printf("\n\n");
 
+    printf("entered back into main filter loop\n");
+    printf("sigmas_f:\n");
+    for (int i =0; i < 7; i++){
+      printf("[");
+      for (int j=0; j< 3; j++){
+	printf("%.4f ",ukf.sigmas_f[i][j]);
+      }
+      printf("]\n");
+    }
+
+    printf("Attempting update step in loop iteration %d\n",i);
     // update step
-    update(&ukf, &sp, R, unscented_transform, H, z);
+    update(&ukf, &sp, R, H, z);
+    printf("\n ======================================================\n");
 
-    // append x's to the filtered array xs_ukf
+    
+  } //========== end main batch filter loop=========
 
-  } // end main batch filter loop
+  
 
   // create time array for data plotting
   double time[157];

@@ -12,13 +12,6 @@
 void update(UKF *ukf,
 	    MerweSigmaPoints *sp,
 	    double R[3][3],
-	    void (*UT)(double sigmas[7][3],
-		       double Wm[7],
-		       double Wc[7],
-		       double noise_cov[3][3],
-		       UKF *ukf,
-		       double x[3],
-		       double P[3][3]),
 	    double H[3][3],
 	    double z[3]);
 

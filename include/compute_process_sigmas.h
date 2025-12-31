@@ -3,6 +3,6 @@
 
 #include "UnscentedKalmanFilter.h"
 
-void compute_process_sigmas(UKF *ukf, MerweSigmaPoints *sp, double sigmas[7][3]);
+void compute_process_sigmas(UKF *ukf, MerweSigmaPoints *sp);
 
 #endif

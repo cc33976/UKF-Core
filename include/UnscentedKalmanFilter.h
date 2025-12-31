@@ -24,11 +24,11 @@ typedef void (*hx_fn)(double x_in[3], double H[3][3], double z_out[3]);
   double x_post[3]; 
 
   // pointers to predefined 3x3 arrays s
-  double (*P)[3];
+  double P[3][3];
   double P_prior[3][3];
-  double  P_post[3][3];
-  double (*Q)[3];
-  double (*R)[3];
+  double P_post[3][3];
+  double Q[3][3];
+  double R[3][3];
 
   // sigma points from fx and hx functions
   double sigmas_f[7][3];
