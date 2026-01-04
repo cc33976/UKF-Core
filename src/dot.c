@@ -11,7 +11,6 @@ void dot(double A[7], double B[7][3], double Out[3]) {
       sum = sum + (A[i] * B[i][j]);
     } // end nested for loop
     Out[j] = sum;
-    sum = 0.0;
   } // end for loop
 
 } // end dot 

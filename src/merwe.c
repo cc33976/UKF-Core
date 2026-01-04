@@ -28,17 +28,6 @@ void merweCreate(MerweSigmaPoints *sp,
     sp->Wc[i] = sp->Wm[i];
   }
 
-  printf("Print weights for debugging\n");
-  printf("Lambda = %.6f\n", sp->lambda);
-  printf("Weights (mean): ");
-  for (int i = 0; i < 2*sp->n + 1; i++) {
-    printf("%.6f ", sp->Wm[i]);
-  }
-  printf("\nWeights (cov): ");
-  for (int i = 0; i < 2*sp->n + 1; i++) {
-    printf("%.6f ", sp->Wc[i]);
-  }
-  printf("\n");
   
 } // end merweCreate
 
@@ -53,8 +42,6 @@ void sigma_points(MerweSigmaPoints *sp,
   int n = sp->n;
   double lambda = sp->lambda;
 
-  printf("entering sigma points\n");
-  //printf("n = %d, lambda = %.3f\n",n,lambda);
 
   // need access to cholesky here: U = self.sqrt((lambda_ + n)*P)
   double P_new[3][3];
@@ -64,15 +51,6 @@ void sigma_points(MerweSigmaPoints *sp,
       P_new[i][j] = P[i][j] * (lambda + n);
     } // end inner for loop
   } // end outer for loop
-
-  printf("New P matrix:\n");
-  for (int i=0; i<3;i++){
-    printf("[");
-    for (int j=0;j < 3; j++){
-      printf("%.3f ",P_new[i][j]);
-    }
-    printf("]\n");
-  }
   
   double U[3][3];
   double temp[3][3];
@@ -85,16 +63,6 @@ void sigma_points(MerweSigmaPoints *sp,
   } // end outer for loop
 
   cholesky(temp, U);
-
- 
-  printf("print the new U matrix:\n");
-  for (int i=0; i<3;i++){
-    printf("[");
-    for (int j=0;j < 3; j++){
-      printf("%.3f ",U[i][j]);
-    }
-    printf("]\n");
-  }
 
   
   // assign sigmas matrix to zeros

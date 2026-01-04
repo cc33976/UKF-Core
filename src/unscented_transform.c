@@ -15,16 +15,6 @@ void unscented_transform(double sigmas[7][3],
 			 double x[3],
 			 double P[3][3]){
 
-  printf("#### entering unscented transform ####\n");
-
-  printf("sigmas_f:\n");
-  for (int i =0; i < 7; i++){
-    printf("[");
-    for (int j=0; j< 3; j++){
-      printf("%.4f ",sigmas[i][j]);
-    }
-    printf("]\n");
-  }
 
   // set P to zero before accumulating
   for (int i = 0; i < 3; i++){
@@ -37,7 +27,7 @@ void unscented_transform(double sigmas[7][3],
   dot(Wm, sigmas, x);
 
   // compute new covariance matrix
-  double y[3];
+  double y[3] = {0};
   for (int k = 0; k < 7; k++) {
     residual(sigmas[k], x, y);  // y = sigmas[k] - x
     
@@ -60,7 +50,6 @@ void unscented_transform(double sigmas[7][3],
     } // end for loop
   } // end if statement
 
-  printf("leaving unscented transform\n");
  
 
 } // end unscented_transform

@@ -58,6 +58,7 @@ typedef void (*hx_fn)(double x_in[3], double H[3][3], double z_out[3]);
 void init_UKF(UKF *ukf,
 	      int dim_x,
 	      int dim_z,
+	      double x[3],
 	      double P[3][3],
 	      double Q[3][3],
 	      double R[3][3],

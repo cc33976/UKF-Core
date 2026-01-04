@@ -1,0 +1,26 @@
+#include <stdio.h>
+
+void save_ukf_to_csv(const char *filename, double time[], double xs_ukf[][3], int rows) {
+    // Mode "w" handles the: "If exists, overwrite. If not, create." logic.
+    FILE *f = fopen(filename, "w");
+
+    if (f == NULL) {
+        // This usually happens if the folder doesn't exist or permissions are denied
+        perror("Error opening CSV file");
+        return;
+    }
+
+    // Write header
+    fprintf(f, "time,alt,vel,accel\n");
+
+    for (int i = 0; i < rows; i++) {
+        fprintf(f, "%.4f,%.4f,%.4f,%.4f\n", 
+                time[i], 
+                xs_ukf[i][0], 
+                xs_ukf[i][1], 
+                xs_ukf[i][2]);
+    }
+
+    fclose(f);
+    printf("Successfully wrote data to %s (overwrote if existed).\n", filename);
+}

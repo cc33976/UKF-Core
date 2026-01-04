@@ -9,20 +9,19 @@
 void compute_process_sigmas(UKF *ukf,
 			    MerweSigmaPoints *sp) {
 
-  printf("entering compute_process_sigmas\n");
-  double sigmas[7][3];
+  
+  // generate sigma points for give state (x,P)
+  double sigmas[7][3] = {0};
 
   // create sigma points around given mean values x
   sigma_points(sp, sigmas, ukf->x, ukf->P);
 
-  printf("printing sigma points from sigma_points fn:\n");
-  for (int i=0; i<7; i++){
-    printf("[");
-    for (int j=0; j<3; j++){
-      printf("%.4f ",sigmas[i][j]);
-    }
-    printf("]\n");
-  }
+  // pass sigma points to the f_func for model state prediction
+  
+  for (int i=0; i < 7; i++) {
+    f_func(ukf, sigmas[i], ukf->sigmas_f[i]);
+
+  } // end for loop
   
 
 } // end compute_process_sigmas

@@ -14,32 +14,23 @@
 #include "update.h"
 #include "unscented_transform.h"
 #include "f_func.h"
-#include "h_func.h" 
+#include "h_func.h"
+#include "save_ukf_to_csv.h"
 
 
 
-int main(void){
+int  main(void){
   // argc -- num command line arguments
   // argv -- array of strings containing arguments
 
   double zs[157][3];
-  //double xs_ukf[157][3];
+  double xs_ukf[157][3];
   //double Ps_ukf[157][3];
   double z[3];
 
   // import flight data into z matrix (measurements)
   const char filename[256] = "/Users/casey/Desktop/Kalman_Test_Data/Kalman_Test_data.csv";
   load_csv(filename, zs);
-
-  /*
-  printf("zs:\n");
-  for (int i = 0; i < 157; i++){
-    for (int j = 0; j < 3; j++){
-      printf("%.3f ",zs[i][j]);
-    }
-	printf("\n");
-  }
-  */
   
 
   // constant declarations:
@@ -47,8 +38,11 @@ int main(void){
   double var_vel = 2.0;
   double var_accel = 1.0;
   double rho_R = 0.7; // for covariance weights
-  double rho_Q = 0.7; // for white noise weights
-  double dt = 0.117; // seconds 
+  double rho_Q = 0.8; // for white noise weights
+  double dt = 0.117; // seconds
+
+  // initial guess 
+  double x_init[3] = {0.2, 0.1, 9.8};
 
   // create a 3x3 I matrix for H
   double H[3][3] = {
@@ -72,31 +66,13 @@ int main(void){
     {rho_R*sqrt(var_alt*var_accel), rho_R*sqrt(var_vel*var_accel), 9*var_accel}
   };
   
-
-  /*
-  double P0[3][3] = {
-    {var_alt, 0, 0},
-    {0, var_vel, 0},
-    {0, 0, var_accel}};
-
-  */
-
   // create white noise matrix for process noise
-  
   double Q_UKF[3][3] = {
     {var_alt, rho_Q*sqrt(var_alt*var_vel), rho_Q*sqrt(var_alt*var_accel)},
     {rho_Q*sqrt(var_vel*var_alt), var_vel, rho_Q*sqrt(var_vel*var_accel)},
     {rho_Q*sqrt(var_alt*var_accel), rho_Q*sqrt(var_vel*var_accel), var_accel},
   };
   
-
-  /*
-  double Q_UKF[3][3] = {
-    {10, 0, 0},
-    {0, 10, 0},
-    {0, 0, 10}};
-
-  */
 
   // =============== UKF SETUP ===============
   // create sigma points 
@@ -105,46 +81,31 @@ int main(void){
   double beta = 2.0;
   double kappa = 0.0; 
   MerweSigmaPoints sp;
-  //printf("Attempting to create sigma points\n");
   merweCreate(&sp, n, alpha, beta, kappa);
-  //printf("successfully created sigma points\n");
 
 
   // create UKF
   UKF ukf;
-  //printf("Attempting to create UKF 'object'\n");
-  init_UKF(&ukf, 3, 3, P0, Q_UKF, R, dt, f_func, h_func, &sp);
-  //printf("created UKF 'object with init_UKF'\n");
-
+  init_UKF(&ukf, 3, 3, x_init, P0, Q_UKF, R, dt, f_func, h_func, &sp);
   
 
   // ============== filter loop ================
   for (int i = 0; i < 157; i++){
     for (int j = 0; j < 3; j++){ 
       z[j] = zs[i][j];
-    } // end nested for loop
+    } // end nested for loop	   
 
-    printf("Attempting predict step in loop iteration %d\n",i);
     // predict step
     predict(&ukf, &sp);
-    printf("\n\n");
 
-    printf("entered back into main filter loop\n");
-    printf("sigmas_f:\n");
-    for (int i =0; i < 7; i++){
-      printf("[");
-      for (int j=0; j< 3; j++){
-	printf("%.4f ",ukf.sigmas_f[i][j]);
-      }
-      printf("]\n");
-    }
-
-    printf("Attempting update step in loop iteration %d\n",i);
     // update step
     update(&ukf, &sp, R, H, z);
-    printf("\n ======================================================\n");
 
-    
+    for (int l = 0; l < 3; l++){
+      xs_ukf[i][l] = ukf.x[l];
+    }
+    //printf("%.4f [m], %.4f [m/s], %.4f [m/s^2]\n",xs_ukf[i][0],xs_ukf[i][1], xs_ukf[i][2]);
+
   } //========== end main batch filter loop=========
 
   
@@ -157,11 +118,16 @@ int main(void){
     temp += dt;     
   } // end for loop
 
- 
+  printf("============================================\n");
   printf("alt: %f [m]\n",ukf.x[0]);
   printf("vel: %f [m/s]\n",ukf.x[1]);
   printf("accel: %f [m/s^2]\n",ukf.x[2]);
+  printf("============================================\n\n");
 
 
+  // write to output file
+  const char outfilename[256] = "/Users/casey/Desktop/UnscentedKalmanFilter/ukf_output.csv";
+  int rows = 157;
+  save_ukf_to_csv(outfilename, time, xs_ukf, rows);
 
 } // end main 
