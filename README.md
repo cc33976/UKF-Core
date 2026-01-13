@@ -39,11 +39,11 @@ chmod +x run.sh
 ```
 
 ## High-Level Architecture
-![High-Level Architecture](images/UKF_HighLevel_block.png)
+![High-Level Architecture](Images/UKF_HighLevel_block.png)
 
 ## Predict Function Architecture
-![Predict Function Arctitecture](images/UKF_Predict_block.png)
+![Predict Function Arctitecture](Images/UKF_Predict_block.png)
 
 
 ## Update Function Architecture
-![Update Function Arctitecture](images/UKF_Update_block.png)
+![Update Function Arctitecture](Images/UKF_Update_block.png)
