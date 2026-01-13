@@ -12,47 +12,42 @@ This project was developed as part of a rocket state estimation effort and inclu
 No external math libraries. No magic. Just linear algebra, pain, and eventually convergence.
 
 ---
-'''markdown
+
 ## State Definition
 
 The current implementation estimates a 3-state system:
 $$x = \begin{bmatrix} s \\ v \\ a \end{bmatrix} = \begin{bmatrix} \text{altitude} \\ \text{velocity} \\ \text{acceleration} \end{bmatrix}$$x = [ altitude, velocity, acceleration ]
 ...
 
-'''markdown
+
 ## File Structure
-'''text
 .
-├── src/
-│   └── *.c          # All source files
-├── include/
-│   └── *.h          # All header files
-├── Images
-│   └── *.png
+├── src/         # All source files
+├── include/     # All header files
+├── Images/	 # All image files
 ├── Makefile
 ├── README.md
 └── run.sh
 
-'''markdown
+
 ## Build and Run
 
 The project is built and executed using a simple shell script.
 
-```bash
+
 chmod +x run.sh
 ./run.sh
 
-'''markdown
+
 ## High-Level Architecture
-'''text
 ![High-Level Architecture](images/UKF_HighLevel_block.png)
 
-'''markdown
+
 ## Predict Function Architecture
-'''text
+
 ![Predict Function Arctitecture](images/UKF_Predict_block.png)
 
-'''markdown
+
 ## Update Function Architecture
-'''text
+
 ![Update Function Arctitecture](images/UKF_Update_block.png)
