@@ -38,7 +38,7 @@ Unscented Kalman Filter written in C for the purpose of improved data resolution
 The project is built and executed using a simple shell script.
 
 ```bash
-chmod +wrx run.sh
+chmod +x run.sh
 ./run.sh
 
 ## temporary block diagram
