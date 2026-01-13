@@ -9,7 +9,7 @@ This project was developed as part of a rocket state estimation effort and inclu
 - Cholesky-based Kalman gain computation
 - Full predict/update loop with tunable noise models
 
-No external math libraries. No magic. Just linear algebra, pain, and eventually convergence.
+No external math libraries. No magic. Just linear algebra, pain, and eventual convergence.
 
 ---
 
