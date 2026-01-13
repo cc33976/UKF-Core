@@ -17,10 +17,8 @@ No external math libraries. No magic. Just linear algebra, pain, and eventually 
 
 The current implementation estimates a 3-state system:
 
-```text
-x = [ altitude, velocity, acceleration ]
-# UnscentedKalmanFilter
-Unscented Kalman Filter written in C for the purpose of improved data resolution in HPR telemetry
+$$x = \begin{bmatrix} s \\ v \\ a \end{bmatrix} = \begin{bmatrix} \text{altitude} \\ \text{velocity} \\ \text{acceleration} \end{bmatrix}$$x = [ altitude, velocity, acceleration ]
+
 
 
 ## File Structure
@@ -29,6 +27,8 @@ Unscented Kalman Filter written in C for the purpose of improved data resolution
 │   └── *.c          # All source files
 ├── include/
 │   └── *.h          # All header files
+├── Images
+│   └── *.png
 ├── Makefile
 ├── README.md
 └── run.sh
@@ -41,65 +41,13 @@ The project is built and executed using a simple shell script.
 chmod +x run.sh
 ./run.sh
 
-## temporary block diagram
-Initial State Guess
-(x₀, P₀)
-      │
-      ▼
-Sigma Point Generation
-(Merwe Scaled Sigma Points)
-      │
-      ▼
-Nonlinear Propagation
-(RK4 on each sigma point)
-      │
-      ▼
-Propagated Sigma Points
-(sigmas_f)
-      │
-      ▼
-Unscented Transform
-      │
-      ├──► Predicted State (x⁻)
-      └──► Predicted Covariance (P⁻)
-      │
-      ▼
-──────────── UPDATE ────────────
-      │
-      ▼
-Measurement Sigma Points
-(h(sigmas_f))
-      │
-      ▼
-Unscented Transform
-      │
-      ├──► Predicted Measurement (ẑ)
-      └──► Innovation Covariance (S)
-      │
-      ▼
-Cross Covariance (Pₓz)
-      │
-      ▼
-Kalman Gain (K)
-      │
-      ▼
-State Update
-x⁺ = x⁻ + K (z − ẑ)
-      │
-      ▼
-Covariance Update
-(Joseph Form)
-      │
-      ▼
-Posterior State
-(x⁺, P⁺)
-      │
-      └──► Used as prior next iteration
+
+## High-Level Architecture
+![High-Level Architecture](images/UKF_HighLevel_block.png)
+
+## Predict Function Architecture
+![Predict Function Arctitecture](images/UKF_Predict_block.png)
 
 
-
-
-
-
-
-
+## Update Function Architecture
+![Update Function Arctitecture](images/UKF_Update_block.png)
