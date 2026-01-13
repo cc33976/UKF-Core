@@ -15,23 +15,12 @@ Cholesky-based Kalman gain computation
 Full predict/update loop with tunable noise models
 
 No external math libraries. No magic. Just linear algebra, pain, and eventually convergence.
----
+
 
 ## State Definition
 
 The current implementation estimates a 3-state system:
 $$x = \begin{bmatrix} s \\ v \\ a \end{bmatrix} = \begin{bmatrix} \text{altitude} \\ \text{velocity} \\ \text{acceleration} \end{bmatrix}$$
-...
-
-
-## File Structure
-.
-├── src/         # All source files
-├── include/     # All header files
-├── Images/      # All image files
-├── Makefile
-├── README.md
-└── run.sh
 
 
 ## Build and Run
